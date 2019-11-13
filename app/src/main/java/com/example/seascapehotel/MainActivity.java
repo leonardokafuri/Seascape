@@ -62,18 +62,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime()); // to display on the field
+        String sharedprefdate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(c.getTime()); // to save on the shared pref that will save on the dabtabase
         SharedPreferences preferences = this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
         String btnclicked = preferences.getString("selected", "");
         if(btnclicked.contentEquals("checkin"))
         {
             TextView textView = (TextView) findViewById(R.id.checkin);
+            preferences.edit().putString("checkin",sharedprefdate ).apply();
             textView.setText(currentDateString);
         }
         else if(btnclicked.contentEquals("checkout"))
         {
             TextView textView = (TextView) findViewById(R.id.checkout);
+            preferences.edit().putString("checkout",sharedprefdate).apply();
             textView.setText(currentDateString);
         }
 

@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/email"
         android:layout_width="200dp"
         android:layout_height="40dp"
 
@@ -64,7 +64,7 @@
         android:layout_marginLeft="104dp"
         android:layout_marginTop="344dp"
         android:background="@color/inputcolor"
-        android:hint="   Username"
+        android:hint="   Email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

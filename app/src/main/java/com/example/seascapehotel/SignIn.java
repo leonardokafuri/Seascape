@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -131,18 +132,27 @@ public class SignIn extends AppCompatActivity {
             }
             String dbemail = preferences.getString("memail", "");
             String dbpass = preferences.getString("mpass", "");
-            final ArrayList<LoginData> p = proccessData(result);
-            if(p != null)
+            if(result.equals("nothing")) // not working not sure why yet..
             {
-                for(LoginData elem : p)
+                Toast.makeText(SignIn.this,"Could not log you in, please try again",Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                final ArrayList<LoginData> p = proccessData(result);
+                if(p != null)
                 {
-                    Log.d("Name: " ,elem.Email);
-                    Log.d("password: ",elem.Password);
-                    if(elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
-                        startActivity(new Intent(SignIn.this,MainActivity.class));
+                    for(LoginData elem : p)
+                    {
+                        int id = elem.CustomerID;
+                        preferences.edit().putInt("CID",id).apply();
+                        if(elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
+                            startActivity(new Intent(SignIn.this,MainActivity.class));
+                    }
+
                 }
 
             }
+
         }
 
     }
@@ -159,6 +169,7 @@ public class SignIn extends AppCompatActivity {
                 ld = new LoginData();
                 ld.Email = element.getString("Email");
                 ld.Password = element.getString("Password");
+                ld.CustomerID = element.getInt("CustomerID");
                 temp.add(ld);
             }
             return  temp;

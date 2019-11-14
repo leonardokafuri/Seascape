@@ -59,6 +59,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="420dp"
         android:background="@color/inputcolor"
+        android:inputType="textPassword"
         android:hint="   Password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

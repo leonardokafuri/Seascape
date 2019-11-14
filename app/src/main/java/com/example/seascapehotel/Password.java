@@ -52,7 +52,8 @@ public class Password extends AppCompatActivity {
                 try{
                     String useremail = email.getText().toString();
                     preferences.edit().putString("rpassemail",useremail).apply();
-                    new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ForgotPassword.php");
+                  //  new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ForgotPassword.php");
+                    new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ForgotPassword.php");
                     String dbmail = preferences.getString("resetmail", "");
                     int cid = preferences.getInt("rcid",0);
                     String token = dbh.createResetToken(cid);
@@ -74,7 +75,8 @@ public class Password extends AppCompatActivity {
                 String token =sentCode.getText().toString();
                 String retrievedtoken = preferences.getString("token","");
                 if(token.contentEquals(retrievedtoken))
-                new JsonTask2().execute("http://10.0.2.2:8888/MAMP/hotel/ResetPassword.php");
+                //new JsonTask2().execute("http://10.0.2.2:8888/MAMP/hotel/ResetPassword.php");
+                new JsonTask2().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ResetPassword.php");
             }
         });
 

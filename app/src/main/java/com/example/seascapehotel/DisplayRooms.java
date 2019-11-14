@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,6 +130,8 @@ public class DisplayRooms extends AppCompatActivity {
                     Button btn;
                     for(final RoomData elem : p)
                     {
+                        iv = new ImageView(DisplayRooms.this);
+                        Picasso.with(DisplayRooms.this).load(elem.Picture).into(iv);
                         tv= new TextView(DisplayRooms.this);
                         tv.append(elem.Name +"\n");
                         tv.append(elem.Description + "\n");
@@ -137,6 +141,7 @@ public class DisplayRooms extends AppCompatActivity {
                         btn.setBackgroundResource(R.color.blue);
                         btn.setTextColor(Color.WHITE);
                         btn.setText("Book Room");
+                        layout.addView(iv);
                         layout.addView(tv);
                         layout.addView(btn);
 
@@ -145,6 +150,7 @@ public class DisplayRooms extends AppCompatActivity {
                             public void onClick(View view) {
                                 // if room has been choosen
                                 String price= elem.Price;
+                                startActivity(new Intent(DisplayRooms.this,Payment.class));
                                 // save the data and put on shared pref
                                 //start payment activity
                             }

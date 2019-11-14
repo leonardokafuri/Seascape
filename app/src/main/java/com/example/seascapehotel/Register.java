@@ -85,6 +85,14 @@ public class Register extends AppCompatActivity {
                     return;
                 }
                 else{
+                  if(mEmail.getText().toString().isEmpty() || mPassword.getText().toString().isEmpty() || mFirstName.getText().toString().isEmpty()|| mLastName.getText().toString().isEmpty())
+                  {
+                      Toast.makeText(Register.this, "Please fill the code and the new password fields", Toast.LENGTH_SHORT).show();
+                  }
+                  else{
+
+                  }
+
                     String remail = mEmail.getText().toString();
                     String rpass = mPassword.getText().toString();
                     String rfname = mFirstName.getText().toString();

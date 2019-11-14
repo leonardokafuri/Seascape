@@ -6,10 +6,20 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class DisplayRooms extends AppCompatActivity {
     ProgressDialog pd;
@@ -103,8 +114,71 @@ public class DisplayRooms extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
+            if(result.equals("0 results"))
+            {
+                // error toast
+            }else
+            {
+                final ArrayList<RoomData> p = proccessData(result);
+                if(p != null)
+                {
+                    LinearLayout layout = findViewById(R.id.lv);
+                    ImageView iv;
+                    TextView tv;
+                    Button btn;
+                    for(final RoomData elem : p)
+                    {
+                        tv= new TextView(DisplayRooms.this);
+                        tv.append(elem.Name +"\n");
+                        tv.append(elem.Description + "\n");
+                        tv.append(elem.Price + "\n");
+                        tv.append(elem.Picture);
+                        btn = new Button(DisplayRooms.this);
+                        btn.setBackgroundResource(R.color.blue);
+                        btn.setTextColor(Color.WHITE);
+                        btn.setText("Book Room");
+                        layout.addView(tv);
+                        layout.addView(btn);
 
+                        btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // if room has been choosen
+                                String price= elem.Price;
+                                // save the data and put on shared pref
+                                //start payment activity
+                            }
+                        });
+                    }
+                }
+            }
         }
 
+    }
+
+    private ArrayList<RoomData> proccessData(String data)
+    {
+        ArrayList<RoomData> temp = new ArrayList<>();
+        try{
+            JSONArray ar = new JSONArray(data);
+            JSONObject element;
+            RoomData rd;
+            for(int i=0; i<ar.length();i++)
+            {
+                element = ar.getJSONObject(i);
+                rd = new RoomData();
+                rd.Name = element.getString("Name");
+                rd.Description = element.getString("Description");
+                rd.Price = element.getString("Price");
+                rd.Picture = element.getString("Picture");
+                temp.add(rd);
+            }
+            return temp;
+
+        }catch (JSONException E)
+        {
+            Log.d("MainActivity",E.getMessage());
+        }
+        return null;
     }
 }

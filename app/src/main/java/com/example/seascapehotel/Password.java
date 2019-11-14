@@ -38,7 +38,7 @@ public class Password extends AppCompatActivity {
         setContentView(R.layout.activity_password);
 
         final EditText email = findViewById(R.id.Resetmail);
-        final EditText sendCode = findViewById(R.id.ResetCode);
+        final EditText sentCode = findViewById(R.id.ResetCode);
         final EditText newPass = findViewById(R.id.newpass);
         final Button btSendCode = findViewById(R.id.SendCode);
         final Button btReset = findViewById(R.id.Reset);
@@ -56,6 +56,7 @@ public class Password extends AppCompatActivity {
                     String dbmail = preferences.getString("resetmail", "");
                     int cid = preferences.getInt("rcid",0);
                     String token = dbh.createResetToken(cid);
+                    preferences.edit().putString("token",token).apply();
                     SendMailTLS.sendEmail(dbmail,token);
                     Toast.makeText(Password.this, "An email has been sent to you", Toast.LENGTH_SHORT).show();
                 }
@@ -70,7 +71,10 @@ public class Password extends AppCompatActivity {
             public void onClick(View v) {
                 String password = newPass.getText().toString();
                 preferences.edit().putString("newpass",password).apply();
-
+                String token =sentCode.getText().toString();
+                String retrievedtoken = preferences.getString("token","");
+                if(token.contentEquals(retrievedtoken))
+                new JsonTask2().execute("http://10.0.2.2:8888/MAMP/hotel/ResetPassword.php");
             }
         });
 
@@ -175,9 +179,10 @@ public class Password extends AppCompatActivity {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             String rsetemail = preferences.getString("rpassemail", "");
+            String newpass = preferences.getString("newpass","");
             try {
                 String data = URLEncoder.encode("Email","UTF-8")+ "=" +URLEncoder.encode(rsetemail,"UTF-8");
-                //data += "&" + URLEncoder.encode("Password","UTF-8")+ "="+ URLEncoder.encode(pass,"UTF-8");
+                data += "&" + URLEncoder.encode("Password","UTF-8")+ "="+ URLEncoder.encode(newpass,"UTF-8");
                 try {
                     URL url = new URL(params[0]);
                     connection = (HttpURLConnection) url.openConnection();
@@ -224,24 +229,7 @@ public class Password extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            String usermail = preferences.getString("rpassemail", "");
-            final ArrayList<PasswordData> p = proccessData(result);
-            if(p != null)
-            {
-                for(PasswordData elem : p)
-                {
-                    if(elem.Email.contentEquals(usermail))
-                    {
-                        preferences.edit().putString("resetmail",usermail).apply();
-                        preferences.edit().putInt("rcid",elem.CustomerID).apply();
-                    }
-                    else
-                    {
-                        Toast.makeText(Password.this, "Email not Registered", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            }
+             startActivity(new Intent(Password.this,SignIn.class));
         }
     }
 

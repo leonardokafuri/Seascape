@@ -179,9 +179,10 @@ public class Password extends AppCompatActivity {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             String rsetemail = preferences.getString("rpassemail", "");
+            Log.d("rmail",rsetemail);
             String newpass = preferences.getString("newpass","");
             try {
-                String data = URLEncoder.encode("Email","UTF-8")+ "=" +URLEncoder.encode(rsetemail,"UTF-8");
+                String data = URLEncoder.encode("email","UTF-8")+ "=" +URLEncoder.encode(rsetemail,"UTF-8");
                 data += "&" + URLEncoder.encode("Password","UTF-8")+ "="+ URLEncoder.encode(newpass,"UTF-8");
                 try {
                     URL url = new URL(params[0]);
@@ -197,6 +198,7 @@ public class Password extends AppCompatActivity {
 
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line + "\n");
+                        Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
                     }
                     return buffer.toString();
 

@@ -95,7 +95,7 @@ public class SignIn extends AppCompatActivity {
                     String line = "";
 
                     while ((line = reader.readLine()) != null) {
-                        buffer.append(line + "\n");
+                        buffer.append(line);
                         Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
                     }
 

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setContentView(R.layout.activity_main);
       final  SharedPreferences preferences = this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
+      Button search = findViewById(R.id.signIn);
 
         RelativeLayout checkin = findViewById(R.id.CheckinRel);
         checkin.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +56,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 startActivity(new Intent(MainActivity.this,Login.class));
             }
         });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,DisplayRooms.class));
+            }
+        });
+
+
     }
 
     @Override

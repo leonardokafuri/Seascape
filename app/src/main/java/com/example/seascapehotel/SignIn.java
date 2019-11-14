@@ -56,8 +56,8 @@ public class SignIn extends AppCompatActivity {
                 String mpass = password.getText().toString();
                 preferences.edit().putString("memail",memail).apply();
                 preferences.edit().putString("mpass",mpass).apply();
-                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Login.php");
-
+                //new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Login.php");
+                new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/Login.php");
             }
         });
     }
@@ -132,12 +132,7 @@ public class SignIn extends AppCompatActivity {
             }
             String dbemail = preferences.getString("memail", "");
             String dbpass = preferences.getString("mpass", "");
-            if(result.equals("nothing")) // not working not sure why yet..
-            {
-                Toast.makeText(SignIn.this,"Could not log you in, please try again",Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            Log.d("result",result);
                 final ArrayList<LoginData> p = proccessData(result);
                 if(p != null)
                 {
@@ -150,8 +145,6 @@ public class SignIn extends AppCompatActivity {
                     }
 
                 }
-
-            }
 
         }
 

@@ -68,6 +68,8 @@ public class Password extends AppCompatActivity {
         btReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String password = newPass.getText().toString();
+                preferences.edit().putString("newpass",password).apply();
 
             }
         });
@@ -157,6 +159,92 @@ public class Password extends AppCompatActivity {
             }
         }
     }
+
+    private class JsonTask2 extends AsyncTask<String, String, String> {
+        final SharedPreferences preferences =Password.this.getSharedPreferences(
+                "mypref", Context.MODE_PRIVATE);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new ProgressDialog(Password.this);
+            pd.setMessage("Please wait");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            String rsetemail = preferences.getString("rpassemail", "");
+            try {
+                String data = URLEncoder.encode("Email","UTF-8")+ "=" +URLEncoder.encode(rsetemail,"UTF-8");
+                //data += "&" + URLEncoder.encode("Password","UTF-8")+ "="+ URLEncoder.encode(pass,"UTF-8");
+                try {
+                    URL url = new URL(params[0]);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+                    wr.write(data);
+                    wr.flush();
+
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line + "\n");
+                    }
+                    return buffer.toString();
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (pd.isShowing()) {
+                pd.dismiss();
+            }
+            String usermail = preferences.getString("rpassemail", "");
+            final ArrayList<PasswordData> p = proccessData(result);
+            if(p != null)
+            {
+                for(PasswordData elem : p)
+                {
+                    if(elem.Email.contentEquals(usermail))
+                    {
+                        preferences.edit().putString("resetmail",usermail).apply();
+                        preferences.edit().putInt("rcid",elem.CustomerID).apply();
+                    }
+                    else
+                    {
+                        Toast.makeText(Password.this, "Email not Registered", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+        }
+    }
+
     private ArrayList<PasswordData> proccessData(String data)
     {
         ArrayList<PasswordData> temp = new ArrayList<>();
@@ -179,5 +267,8 @@ public class Password extends AppCompatActivity {
         }
         return null;
     }
+
+
+
 
 }

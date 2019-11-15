@@ -77,6 +77,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+        RelativeLayout roomkey = findViewById(R.id.RoomKey);
+        roomkey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(preferences.getInt("CID",0)==0)
+                {
+                    Toast.makeText(MainActivity.this,"Please login to see your RoomKey",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    startActivity(new Intent(MainActivity.this,DisplayBookings.class));
+                }
+            }
+        });
 
     }
 

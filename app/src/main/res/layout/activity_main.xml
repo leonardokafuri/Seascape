@@ -159,29 +159,29 @@
         android:layout_marginLeft="290dp"/>
 
     <RelativeLayout
+        android:id="@+id/RoomKey"
         android:layout_width="100dp"
         android:layout_height="120dp"
-        android:background="@drawable/relative_layout_background"
-        android:layout_marginTop="480dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="480dp"
 
-        >
+        android:background="@drawable/relative_layout_background">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/blank_key"
-            android:background="@color/green"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="25dp"
-            />
+            android:layout_marginTop="20dp"
+            android:background="@color/green"
+            android:src="@drawable/blank_key" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="80dp"
             android:text="Room Key"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="100dp"

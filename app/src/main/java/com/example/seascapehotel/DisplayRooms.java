@@ -135,8 +135,7 @@ public class DisplayRooms extends AppCompatActivity {
                         tv= new TextView(DisplayRooms.this);
                         tv.append(elem.Name +"\n");
                         tv.append(elem.Description + "\n");
-                        tv.append(elem.Price + "\n");
-                        tv.append(elem.Picture);
+                        tv.append("$"+elem.Price+ " Per Night");
                         btn = new Button(DisplayRooms.this);
                         btn.setBackgroundResource(R.color.blue);
                         btn.setTextColor(Color.WHITE);
@@ -149,6 +148,7 @@ public class DisplayRooms extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 // if room has been choosen
+                                //check for login before proceed to payment
                                 String price= elem.Price;
                                 startActivity(new Intent(DisplayRooms.this,Payment.class));
                                 // save the data and put on shared pref

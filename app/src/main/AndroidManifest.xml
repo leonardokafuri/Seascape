@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SuccessfulPayment"></activity>
         <activity android:name=".Payment"></activity>
         <activity android:name=".DisplayRooms"></activity>
         <activity android:name=".Password" />

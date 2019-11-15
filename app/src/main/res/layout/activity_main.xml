@@ -231,13 +231,13 @@
             android:src="@drawable/usericon"
             android:background="@color/white"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="14dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="29dp"
             android:text="Sign in"
             android:textColor="@color/black"
             />
@@ -245,7 +245,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="95dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="29dp"
             android:text="Register"
             android:textColor="@color/black"
             />

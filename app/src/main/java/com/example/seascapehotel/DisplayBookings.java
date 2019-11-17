@@ -40,6 +40,14 @@ public class DisplayBookings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_bookings);
+        final SharedPreferences preferences =DisplayBookings.this.getSharedPreferences(
+                "mypref", Context.MODE_PRIVATE);
+
+        int i = preferences.getInt("CID",0);
+        if(i==0)
+        {
+            Toast.makeText(DisplayBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
+        }else
         new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
     }
 
@@ -61,7 +69,6 @@ public class DisplayBookings extends AppCompatActivity {
             BufferedReader reader = null;
             int id = preferences.getInt("CID",0);
             String userid = String.valueOf(id);
-            Log.d("response",userid);
             try {
                 String data = URLEncoder.encode("CustomerID","UTF-8")+ "=" +URLEncoder.encode(userid,"UTF-8");
                 try {

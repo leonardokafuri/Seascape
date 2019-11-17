@@ -52,8 +52,8 @@ public class Password extends AppCompatActivity {
                 try{
                     String useremail = email.getText().toString();
                     preferences.edit().putString("rpassemail",useremail).apply();
-                  //  new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ForgotPassword.php");
-                    new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ForgotPassword.php");
+                   new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ForgotPassword.php");
+                   // new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ForgotPassword.php");
                     String dbmail = preferences.getString("resetmail", "");
                     int cid = preferences.getInt("rcid",0);
                     String token = dbh.createResetToken(cid);
@@ -75,8 +75,8 @@ public class Password extends AppCompatActivity {
                 String token =sentCode.getText().toString();
                 String retrievedtoken = preferences.getString("token","");
                 if(token.contentEquals(retrievedtoken))
-                //new JsonTask2().execute("http://10.0.2.2:8888/MAMP/hotel/ResetPassword.php");
-                new JsonTask2().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ResetPassword.php");
+                new JsonTask2().execute("http://10.0.2.2:8888/MAMP/hotel/ResetPassword.php");
+               // new JsonTask2().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ResetPassword.php");
             }
         });
 
@@ -146,15 +146,20 @@ public class Password extends AppCompatActivity {
                 pd.dismiss();
             }
             String usermail = preferences.getString("rpassemail", "");
-            final ArrayList<PasswordData> p = proccessData(result);
+            if(result.contentEquals("error"))
+            {
+
+            }else
+            {
+                final ArrayList<PasswordData> p = proccessData(result);
                 if(p != null)
                 {
                     for(PasswordData elem : p)
                     {
                         if(elem.Email.contentEquals(usermail))
                         {
-                                 preferences.edit().putString("resetmail",usermail).apply();
-                                 preferences.edit().putInt("rcid",elem.CustomerID).apply();
+                            preferences.edit().putString("resetmail",usermail).apply();
+                            preferences.edit().putInt("rcid",elem.CustomerID).apply();
                         }
                         else
                         {
@@ -162,7 +167,9 @@ public class Password extends AppCompatActivity {
                         }
 
                     }
+                }
             }
+
         }
     }
 
@@ -233,6 +240,10 @@ public class Password extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
+            if(result.contentEquals("error"))
+            {
+                Toast.makeText(Password.this,"Something went wrong trying to update your password, please try again",Toast.LENGTH_LONG).show();
+            }else
              startActivity(new Intent(Password.this,SignIn.class));
         }
     }

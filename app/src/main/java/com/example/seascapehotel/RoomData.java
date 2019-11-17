@@ -5,4 +5,5 @@ public class RoomData {
     String Description;
     String Price;
     String Picture;
+    String RoomID;
 }

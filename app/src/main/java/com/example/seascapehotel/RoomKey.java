@@ -140,7 +140,7 @@ public class RoomKey extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-           /* if(result.contentEquals("error"))
+            if(result.contentEquals("error"))
             {
                 LinearLayout layout = findViewById(R.id.lv2);
                 TextView tv;
@@ -148,7 +148,7 @@ public class RoomKey extends AppCompatActivity {
                 tv.append("No bookings made to genereate a key");
                 layout.addView(tv);
             }else
-            {*/
+            {
                 final ArrayList<QRcodeData> p = proccessData(result);
                 if(p != null)
                 {
@@ -161,7 +161,7 @@ public class RoomKey extends AppCompatActivity {
                         preferences.edit().putString("qrmsg",mesg).apply();
                     }
                 }
-           // }
+            }
         }
 
     }

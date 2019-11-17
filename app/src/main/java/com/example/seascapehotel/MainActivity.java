@@ -10,6 +10,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime()); // to display on the field
-        String sharedprefdate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(c.getTime()); // to save on the shared pref that will save on the dabtabase
+        String sharedprefdate = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()); // to save on the shared pref that will save on the dabtabase
         SharedPreferences preferences = this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
         String btnclicked = preferences.getString("selected", "");
@@ -119,5 +123,26 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.PastBookings:
+                startActivity(new Intent(MainActivity.this,PastBookings.class));
+                return true;
+            case R.id.logout:
+                startActivity(new Intent(MainActivity.this,Logout.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

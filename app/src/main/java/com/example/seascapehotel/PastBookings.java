@@ -6,12 +6,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -29,47 +31,31 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class SignIn extends AppCompatActivity {
+public class PastBookings extends AppCompatActivity {
     ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
-        final EditText email = findViewById(R.id.email);
-        final EditText password = findViewById(R.id.password);
-        Button forget = findViewById(R.id.ForgotPass);
-        Button signin = findViewById(R.id.signIn);
-        final SharedPreferences preferences = this.getSharedPreferences(
+        setContentView(R.layout.activity_past_bookings);
+
+        final SharedPreferences preferences =PastBookings.this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
-        forget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignIn.this,Password.class ));
-            }
-        });
 
-
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String memail = email.getText().toString();
-                String mpass = password.getText().toString();
-                preferences.edit().putString("memail",memail).apply();
-                preferences.edit().putString("mpass",mpass).apply();
-                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Login.php");
-               // new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/Login.php");
-            }
-        });
+        int i = preferences.getInt("CID",0);
+        if(i==0)
+        {
+            Toast.makeText(PastBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
+        }else
+            new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
     }
-
     private class JsonTask extends AsyncTask<String, String, String> {
-        final SharedPreferences preferences =SignIn.this.getSharedPreferences(
+        final SharedPreferences preferences =PastBookings.this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
 
         protected void onPreExecute() {
             super.onPreExecute();
-            pd = new ProgressDialog(SignIn.this);
-            pd.setMessage("Login you in ...");
+            pd = new ProgressDialog(PastBookings.this);
+            pd.setMessage("Searching for Bookings...");
             pd.setCancelable(false);
             pd.show();
         }
@@ -77,11 +63,10 @@ public class SignIn extends AppCompatActivity {
         protected String doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
-            String dbemail = preferences.getString("memail", "");
-            String dbpass = preferences.getString("mpass", "");
+            int id = preferences.getInt("CID",0);
+            String userid = String.valueOf(id);
             try {
-                String data = URLEncoder.encode("Email","UTF-8")+ "=" +URLEncoder.encode(dbemail,"UTF-8");
-                data += "&" + URLEncoder.encode("Password","UTF-8")+ "="+ URLEncoder.encode(dbpass,"UTF-8");
+                String data = URLEncoder.encode("CustomerID","UTF-8")+ "=" +URLEncoder.encode(userid,"UTF-8");
                 try {
                     URL url = new URL(params[0]);
                     connection = (HttpURLConnection) url.openConnection();
@@ -130,49 +115,59 @@ public class SignIn extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.contentEquals("nothing"))
+            if(result.equals("nothing"))
             {
-                Toast.makeText(SignIn.this,"Your email or password is wrong, please try again",Toast.LENGTH_LONG).show();
+                LinearLayout layout = findViewById(R.id.lv3);
+                TextView tv;
+                tv= new TextView(PastBookings.this);
+                tv.append("No bookings made");
+                layout.addView(tv);
+
             }else
             {
-                String dbemail = preferences.getString("memail", "");
-                String dbpass = preferences.getString("mpass", "");
-                final ArrayList<LoginData> p = proccessData(result);
+                final ArrayList<BookingData> p = proccessData(result);
                 if(p != null)
                 {
-                    for(LoginData elem : p)
+                    LinearLayout layout = findViewById(R.id.lv3);
+                    TextView tv;
+                    for(final BookingData elem : p)
                     {
-                        int id = elem.CustomerID;
-                        preferences.edit().putInt("CID",id).apply();
-                        if(elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
-                            startActivity(new Intent(SignIn.this,MainActivity.class));
+                        tv= new TextView(PastBookings.this);
+                        tv.append(elem.Name +"\n");
+                        tv.append(elem.Description + "\n");
+                        tv.append("Total $ "+ elem.Total + "\n");
+                        tv.append("Checkin:"+elem.Checkin + "       Checkout:" + elem.Checkout + "\n");
+                        tv.append(elem.Email +"\n");
+                        tv.append("------------------------------------------------------------------------------------------------------------");
+                        layout.addView(tv);
+
                     }
-
                 }
-
             }
-
-
         }
 
     }
-    private ArrayList<LoginData> proccessData(String data)
+    private ArrayList<BookingData> proccessData(String data)
     {
-        ArrayList<LoginData> temp = new ArrayList<>();
+        ArrayList<BookingData> temp = new ArrayList<>();
         try{
             JSONArray ar = new JSONArray(data);
             JSONObject element;
-            LoginData ld;
+            BookingData bd;
             for(int i=0; i<ar.length();i++)
             {
                 element = ar.getJSONObject(i);
-                ld = new LoginData();
-                ld.Email = element.getString("Email");
-                ld.Password = element.getString("Password");
-                ld.CustomerID = element.getInt("CustomerID");
-                temp.add(ld);
+                bd = new BookingData();
+                bd.Name = element.getString("Name");
+                bd.Checkin=element.getString("Checkin");
+                bd.Checkout=element.getString("Checkout");
+                bd.Description = element.getString("Description");
+                bd.Email=element.getString("Email");
+                bd.Total = element.getString("Total");
+
+                temp.add(bd);
             }
-            return  temp;
+            return temp;
 
         }catch (JSONException E)
         {

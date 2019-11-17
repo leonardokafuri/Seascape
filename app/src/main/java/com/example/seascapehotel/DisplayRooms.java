@@ -116,9 +116,9 @@ public class DisplayRooms extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.equals("0 results"))
+            if(result.equals("error"))
             {
-                // error toast
+                Toast.makeText(DisplayRooms.this,"Sorry, no rooms available on this day, try a different date ",Toast.LENGTH_LONG).show();
             }else
             {
                 final ArrayList<RoomData> p = proccessData(result);
@@ -143,16 +143,27 @@ public class DisplayRooms extends AppCompatActivity {
                         layout.addView(iv);
                         layout.addView(tv);
                         layout.addView(btn);
-
                         btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 // if room has been choosen
                                 //check for login before proceed to payment
-                                String price= elem.Price;
-                                startActivity(new Intent(DisplayRooms.this,Payment.class));
-                                // save the data and put on shared pref
-                                //start payment activity
+                                int cid = preferences.getInt("CID",0);
+                                if(cid==0)
+                                {
+                                    Toast.makeText(DisplayRooms.this,"You need to login to make a reservation",Toast.LENGTH_LONG).show();
+
+                                }else
+                                {
+                                    String price = elem.Price;
+                                    String RID = elem.RoomID;
+                                    preferences.edit().putString("RPrice",price).apply();
+                                    preferences.edit().putString("RID",RID).apply();
+                                    startActivity(new Intent(DisplayRooms.this,Payment.class));
+                                    // save the data and put on shared pref
+                                    //start payment activity
+                                }
+
                             }
                         });
                     }
@@ -177,6 +188,7 @@ public class DisplayRooms extends AppCompatActivity {
                 rd.Description = element.getString("Description");
                 rd.Price = element.getString("Price");
                 rd.Picture = element.getString("Picture");
+                rd.RoomID = element.getString("RoomID");
                 temp.add(rd);
             }
             return temp;

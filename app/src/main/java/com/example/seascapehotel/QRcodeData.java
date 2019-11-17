@@ -5,4 +5,5 @@ public class QRcodeData {
     String Checkin;
     String Checkout;
     String ReservationID;
+    String RoomID;
 }

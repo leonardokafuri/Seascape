@@ -159,6 +159,7 @@ public class DisplayBookings extends AppCompatActivity {
                                 String checkout = elem.Checkout;
                                 preferences.edit().putString("bkci",checkin).apply();
                                 preferences.edit().putString("bkco",checkout).apply();
+                                preferences.edit().putString("qrRoom",elem.RoomID).apply();
                                 //start Qr activity
                                 startActivity(new Intent(DisplayBookings.this,RoomKey.class));
                             }
@@ -186,7 +187,7 @@ public class DisplayBookings extends AppCompatActivity {
                 bd.Description = element.getString("Description");
                 bd.Email=element.getString("Email");
                 bd.Total = element.getString("Total");
-
+                bd.RoomID = element.getString("RoomID");
                 temp.add(bd);
             }
             return temp;

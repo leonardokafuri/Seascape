@@ -51,9 +51,10 @@ public class RoomKey extends AppCompatActivity {
         new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/GenerateQR.php");
 
         String mesg = preferences.getString("qrmsg","");
+        String Room = preferences.getString("qrRoom","");
         int dimension =getDimension();
         Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
-        tv.setText("Scan this key to open your room");
+        tv.setText("Scan this key to open your room " + Room);
         iv.setImageBitmap(bitmap);
     }
     private int getDimension() {
@@ -155,9 +156,10 @@ public class RoomKey extends AppCompatActivity {
                     for(final QRcodeData elem : p)
                     {
                         String mesg = elem.ReservationID;
-                        mesg += elem.CustomerID;
-                        mesg+= elem.Checkin;
-                        mesg += elem.Checkout;
+                        mesg += "  "+elem.CustomerID+"  ";
+                        mesg+= elem.Checkin+"  ";
+                        mesg += elem.Checkout+ "  ";
+                        mesg += elem.RoomID +"  ";
                         preferences.edit().putString("qrmsg",mesg).apply();
                     }
                 }
@@ -180,6 +182,7 @@ public class RoomKey extends AppCompatActivity {
                 qr.CustomerID = element.getString("CustomerID");
                 qr.Checkin = element.getString("checkin");
                 qr.Checkout = element.getString("checkout");
+                qr.RoomID = element.getString("RoomID");
                 temp.add(qr);
             }
             return temp;

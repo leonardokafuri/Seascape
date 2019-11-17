@@ -7,4 +7,5 @@ public class BookingData {
     String Email;
     String Name;
     String Description;
+    String RoomID;
 }

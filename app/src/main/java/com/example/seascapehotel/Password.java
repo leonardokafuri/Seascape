@@ -145,29 +145,27 @@ public class Password extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            String usermail = preferences.getString("rpassemail", "");
-            if(result.contentEquals("error"))
-            {
+            try {
+                String usermail = preferences.getString("rpassemail", "");
+                if (result.contentEquals("error")) {
 
-            }else
-            {
-                final ArrayList<PasswordData> p = proccessData(result);
-                if(p != null)
-                {
-                    for(PasswordData elem : p)
-                    {
-                        if(elem.Email.contentEquals(usermail))
-                        {
-                            preferences.edit().putString("resetmail",usermail).apply();
-                            preferences.edit().putInt("rcid",elem.CustomerID).apply();
-                        }
-                        else
-                        {
-                            Toast.makeText(Password.this, "Email not Registered", Toast.LENGTH_SHORT).show();
-                        }
+                } else {
+                    final ArrayList<PasswordData> p = proccessData(result);
+                    if (p != null) {
+                        for (PasswordData elem : p) {
+                            if (elem.Email.contentEquals(usermail)) {
+                                preferences.edit().putString("resetmail", usermail).apply();
+                                preferences.edit().putInt("rcid", elem.CustomerID).apply();
+                            } else {
+                                Toast.makeText(Password.this, "Email not Registered", Toast.LENGTH_SHORT).show();
+                            }
 
+                        }
                     }
                 }
+            }catch (Exception e)
+            {
+                Toast.makeText(Password.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
             }
 
         }
@@ -240,11 +238,16 @@ public class Password extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.contentEquals("error"))
+            try {
+                if (result.contentEquals("error")) {
+                    Toast.makeText(Password.this, "Something went wrong trying to update your password, please try again", Toast.LENGTH_LONG).show();
+                } else
+                    startActivity(new Intent(Password.this, SignIn.class));
+
+            }catch (Exception e)
             {
-                Toast.makeText(Password.this,"Something went wrong trying to update your password, please try again",Toast.LENGTH_LONG).show();
-            }else
-             startActivity(new Intent(Password.this,SignIn.class));
+                Toast.makeText(Password.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
+            }
         }
     }
 

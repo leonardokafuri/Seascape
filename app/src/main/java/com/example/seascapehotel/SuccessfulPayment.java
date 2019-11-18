@@ -135,25 +135,27 @@ public class SuccessfulPayment extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            String Checkin = preferences.getString("checkin",""); // getting days
-            String Checkout = preferences.getString("checkout",""); // getting days
-            String total= preferences.getString("Btotal","");
-            String Nights = preferences.getString("NumNights","");
-             if(result.contentEquals("Room Booked"))
-             {
-                 TextView info = findViewById(R.id.BookingInfo);
-                 info.append("Your Room has been booked, here is the info : \n");
-                 info.append("Check-in: " + Checkin +"\n");
-                 info.append("Check-out " + Checkout +"\n");
-                 info.append("Nights: " + Nights +"\n");
-                 info.append("Total: " + total +"\n");
+            try {
+                String Checkin = preferences.getString("checkin", ""); // getting days
+                String Checkout = preferences.getString("checkout", ""); // getting days
+                String total = preferences.getString("Btotal", "");
+                String Nights = preferences.getString("NumNights", "");
+                if (result.contentEquals("Room Booked")) {
+                    TextView info = findViewById(R.id.BookingInfo);
+                    info.append("Your Room has been booked, here is the info : \n");
+                    info.append("Check-in: " + Checkin + "\n");
+                    info.append("Check-out " + Checkout + "\n");
+                    info.append("Nights: " + Nights + "\n");
+                    info.append("Total: " + total + "\n");
 
-             }else
-             {
-                 TextView info = findViewById(R.id.BookingInfo);
-                 info.append("Something went wrong trying to book your room, please try again");
-             }
-
+                } else {
+                    TextView info = findViewById(R.id.BookingInfo);
+                    info.append("Something went wrong trying to book your room, please try again");
+                }
+            }catch (Exception e)
+            {
+                Toast.makeText(SuccessfulPayment.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
+            }
         }
 
     }

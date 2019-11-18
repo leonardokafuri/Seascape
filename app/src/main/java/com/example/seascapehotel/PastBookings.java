@@ -115,34 +115,35 @@ public class PastBookings extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.equals("nothing"))
-            {
-                LinearLayout layout = findViewById(R.id.lv3);
-                TextView tv;
-                tv= new TextView(PastBookings.this);
-                tv.append("No bookings made");
-                layout.addView(tv);
-
-            }else
-            {
-                final ArrayList<BookingData> p = proccessData(result);
-                if(p != null)
-                {
+            try {
+                if (result.equals("nothing")) {
                     LinearLayout layout = findViewById(R.id.lv3);
                     TextView tv;
-                    for(final BookingData elem : p)
-                    {
-                        tv= new TextView(PastBookings.this);
-                        tv.append(elem.Name +"\n");
-                        tv.append(elem.Description + "\n");
-                        tv.append("Total $ "+ elem.Total + "\n");
-                        tv.append("Checkin:"+elem.Checkin + "       Checkout:" + elem.Checkout + "\n");
-                        tv.append(elem.Email +"\n");
-                        tv.append("------------------------------------------------------------------------------------------------------------");
-                        layout.addView(tv);
+                    tv = new TextView(PastBookings.this);
+                    tv.append("No bookings made");
+                    layout.addView(tv);
 
+                } else {
+                    final ArrayList<BookingData> p = proccessData(result);
+                    if (p != null) {
+                        LinearLayout layout = findViewById(R.id.lv3);
+                        TextView tv;
+                        for (final BookingData elem : p) {
+                            tv = new TextView(PastBookings.this);
+                            tv.append(elem.Name + "\n");
+                            tv.append(elem.Description + "\n");
+                            tv.append("Total $ " + elem.Total + "\n");
+                            tv.append("Checkin:" + elem.Checkin + "       Checkout:" + elem.Checkout + "\n");
+                            tv.append(elem.Email + "\n");
+                            tv.append("------------------------------------------------------------------------------------------------------------");
+                            layout.addView(tv);
+
+                        }
                     }
                 }
+            }catch (Exception e)
+            {
+                Toast.makeText(PastBookings.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
             }
         }
 

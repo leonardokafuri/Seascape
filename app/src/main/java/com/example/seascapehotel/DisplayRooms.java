@@ -116,58 +116,57 @@ public class DisplayRooms extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.equals("error"))
-            {
-                Toast.makeText(DisplayRooms.this,"Sorry, no rooms available on this day, try a different date ",Toast.LENGTH_LONG).show();
-            }else
-            {
-                final ArrayList<RoomData> p = proccessData(result);
-                if(p != null)
-                {
-                    LinearLayout layout = findViewById(R.id.lv);
-                    ImageView iv;
-                    TextView tv;
-                    Button btn;
-                    for(final RoomData elem : p)
-                    {
-                        iv = new ImageView(DisplayRooms.this);
-                        Picasso.with(DisplayRooms.this).load(elem.Picture).into(iv);
-                        tv= new TextView(DisplayRooms.this);
-                        tv.append(elem.Name +"\n");
-                        tv.append(elem.Description + "\n");
-                        tv.append("$"+elem.Price+ " Per Night");
-                        btn = new Button(DisplayRooms.this);
-                        btn.setBackgroundResource(R.color.blue);
-                        btn.setTextColor(Color.WHITE);
-                        btn.setText("Book Room");
-                        layout.addView(iv);
-                        layout.addView(tv);
-                        layout.addView(btn);
-                        btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // if room has been choosen
-                                //check for login before proceed to payment
-                                int cid = preferences.getInt("CID",0);
-                                if(cid==0)
-                                {
-                                    Toast.makeText(DisplayRooms.this,"You need to login to make a reservation",Toast.LENGTH_LONG).show();
+            try {
+                if (result.equals("error")) {
+                    Toast.makeText(DisplayRooms.this, "Sorry, no rooms available on this day, try a different date ", Toast.LENGTH_LONG).show();
+                } else {
+                    final ArrayList<RoomData> p = proccessData(result);
+                    if (p != null) {
+                        LinearLayout layout = findViewById(R.id.lv);
+                        ImageView iv;
+                        TextView tv;
+                        Button btn;
+                        for (final RoomData elem : p) {
+                            iv = new ImageView(DisplayRooms.this);
+                            Picasso.with(DisplayRooms.this).load(elem.Picture).into(iv);
+                            tv = new TextView(DisplayRooms.this);
+                            tv.append(elem.Name + "\n");
+                            tv.append(elem.Description + "\n");
+                            tv.append("$" + elem.Price + " Per Night");
+                            btn = new Button(DisplayRooms.this);
+                            btn.setBackgroundResource(R.color.blue);
+                            btn.setTextColor(Color.WHITE);
+                            btn.setText("Book Room");
+                            layout.addView(iv);
+                            layout.addView(tv);
+                            layout.addView(btn);
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // if room has been choosen
+                                    //check for login before proceed to payment
+                                    int cid = preferences.getInt("CID", 0);
+                                    if (cid == 0) {
+                                        Toast.makeText(DisplayRooms.this, "You need to login to make a reservation", Toast.LENGTH_LONG).show();
 
-                                }else
-                                {
-                                    String price = elem.Price;
-                                    String RID = elem.RoomID;
-                                    preferences.edit().putString("RPrice",price).apply();
-                                    preferences.edit().putString("RID",RID).apply();
-                                    startActivity(new Intent(DisplayRooms.this,Payment.class));
-                                    // save the data and put on shared pref
-                                    //start payment activity
+                                    } else {
+                                        String price = elem.Price;
+                                        String RID = elem.RoomID;
+                                        preferences.edit().putString("RPrice", price).apply();
+                                        preferences.edit().putString("RID", RID).apply();
+                                        startActivity(new Intent(DisplayRooms.this, Payment.class));
+                                        // save the data and put on shared pref
+                                        //start payment activity
+                                    }
+
                                 }
-
-                            }
-                        });
+                            });
+                        }
                     }
                 }
+            }catch (Exception e)
+            {
+                Toast.makeText(DisplayRooms.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
             }
         }
 

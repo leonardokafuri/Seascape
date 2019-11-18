@@ -48,7 +48,10 @@ public class DisplayBookings extends AppCompatActivity {
         {
             Toast.makeText(DisplayBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
         }else
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
+        {
+                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
+        }
+
     }
 
 
@@ -119,53 +122,59 @@ public class DisplayBookings extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.equals("nothing"))
-            {
-                LinearLayout layout = findViewById(R.id.lv);
-                TextView tv;
-                tv= new TextView(DisplayBookings.this);
-                tv.append("No bookings made to genereate a key");
-                layout.addView(tv);
-
-            }else
-            {
-                final ArrayList<BookingData> p = proccessData(result);
-                if(p != null)
+            try{
+                if(result.equals("nothing"))
                 {
                     LinearLayout layout = findViewById(R.id.lv);
                     TextView tv;
-                    Button btn;
-                    for(final BookingData elem : p)
-                    {
-                        tv= new TextView(DisplayBookings.this);
-                        tv.append(elem.Name +"\n");
-                        tv.append(elem.Description + "\n");
-                        tv.append("$ "+ elem.Total + "\n");
-                        tv.append("Checkin:"+elem.Checkin + "       Checkout:" + elem.Checkout + "\n");
-                        tv.append(elem.Email);
-                        btn = new Button(DisplayBookings.this);
-                        btn.setBackgroundResource(R.color.blue);
-                        btn.setTextColor(Color.WHITE);
-                        btn.setText("Generate Room Key");
-                        layout.addView(tv);
-                        layout.addView(btn);
+                    tv= new TextView(DisplayBookings.this);
+                    tv.append("No bookings made to genereate a key");
+                    layout.addView(tv);
 
-                        btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // if booked room has been choosen
-                                //save checkin, checkout in shared pref for qr
-                                String checkin =elem.Checkin;
-                                String checkout = elem.Checkout;
-                                preferences.edit().putString("bkci",checkin).apply();
-                                preferences.edit().putString("bkco",checkout).apply();
-                                preferences.edit().putString("qrRoom",elem.RoomID).apply();
-                                //start Qr activity
-                                startActivity(new Intent(DisplayBookings.this,RoomKey.class));
-                            }
-                        });
+                }else
+                {
+                    final ArrayList<BookingData> p = proccessData(result);
+                    if(p != null)
+                    {
+                        LinearLayout layout = findViewById(R.id.lv);
+                        TextView tv;
+                        Button btn;
+                        for(final BookingData elem : p)
+                        {
+                            tv= new TextView(DisplayBookings.this);
+                            tv.append(elem.Name +"\n");
+                            tv.append(elem.Description + "\n");
+                            tv.append("$ "+ elem.Total + "\n");
+                            tv.append("Checkin:"+elem.Checkin + "       Checkout:" + elem.Checkout + "\n");
+                            tv.append(elem.Email);
+                            btn = new Button(DisplayBookings.this);
+                            btn.setBackgroundResource(R.color.blue);
+                            btn.setTextColor(Color.WHITE);
+                            btn.setText("Generate Room Key");
+                            layout.addView(tv);
+                            layout.addView(btn);
+
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // if booked room has been choosen
+                                    //save checkin, checkout in shared pref for qr
+                                    String checkin =elem.Checkin;
+                                    String checkout = elem.Checkout;
+                                    preferences.edit().putString("bkci",checkin).apply();
+                                    preferences.edit().putString("bkco",checkout).apply();
+                                    preferences.edit().putString("qrRoom",elem.RoomID).apply();
+                                    //start Qr activity
+                                    startActivity(new Intent(DisplayBookings.this,RoomKey.class));
+                                }
+                            });
+                        }
                     }
                 }
+
+            }catch (Exception e)
+            {
+                Toast.makeText(DisplayBookings.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
             }
         }
 

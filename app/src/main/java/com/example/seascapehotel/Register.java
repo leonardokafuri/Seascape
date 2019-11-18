@@ -180,17 +180,18 @@ public class Register extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-               if(result.contentEquals("Emailerr")) // checking string results to give error messages not working for some reason
-               {
-                   Toast.makeText(Register.this,"This email is already registered, try a different one",Toast.LENGTH_SHORT).show();
-               }else if(result.equals("error"))
-               {
-                   Toast.makeText(Register.this,"We could not register you, please try again",Toast.LENGTH_SHORT).show();
-               }
-               else
-               {
-                   startActivity(new Intent(Register.this,SignIn.class)); // registring new users done !
-               }
+            try {
+                if (result.contentEquals("Emailerr")) // checking string results to give error messages not working for some reason
+                {
+                    Toast.makeText(Register.this, "This email is already registered, try a different one", Toast.LENGTH_SHORT).show();
+                } else if (result.equals("error")) {
+                    Toast.makeText(Register.this, "We could not register you, please try again", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(new Intent(Register.this, SignIn.class)); // registring new users done !
+                }
+            }catch (Exception e){
+                Toast.makeText(Register.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
+            }
 
         }
 

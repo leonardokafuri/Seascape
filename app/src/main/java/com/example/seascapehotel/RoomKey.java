@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +48,8 @@ public class RoomKey extends AppCompatActivity {
         final SharedPreferences preferences =RoomKey.this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
 
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/GenerateQR.php");
+            new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/GenerateQR.php");
+
 
         String mesg = preferences.getString("qrmsg","");
         String Room = preferences.getString("qrRoom","");
@@ -140,28 +142,34 @@ public class RoomKey extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.contentEquals("error"))
-            {
-                LinearLayout layout = findViewById(R.id.lv2);
-                TextView tv;
-                tv= new TextView(RoomKey.this);
-                tv.append("No bookings made to genereate a key");
-                layout.addView(tv);
-            }else
-            {
-                final ArrayList<QRcodeData> p = proccessData(result);
-                if(p != null)
+            try{
+                if(result.contentEquals("error"))
                 {
-                    for(final QRcodeData elem : p)
+                    LinearLayout layout = findViewById(R.id.lv2);
+                    TextView tv;
+                    tv= new TextView(RoomKey.this);
+                    tv.append("No bookings made to genereate a key");
+                    layout.addView(tv);
+                }else
+                {
+                    final ArrayList<QRcodeData> p = proccessData(result);
+                    if(p != null)
                     {
-                        String mesg = elem.ReservationID;
-                        mesg += "  "+elem.CustomerID+"  ";
-                        mesg+= elem.Checkin+"  ";
-                        mesg += elem.Checkout+ "  ";
-                        mesg += elem.RoomID +"  ";
-                        preferences.edit().putString("qrmsg",mesg).apply();
+                        for(final QRcodeData elem : p)
+                        {
+                            String mesg = elem.ReservationID;
+                            mesg += "  "+elem.CustomerID+"  ";
+                            mesg+= elem.Checkin+"  ";
+                            mesg += elem.Checkout+ "  ";
+                            mesg += elem.RoomID +"  ";
+                            preferences.edit().putString("qrmsg",mesg).apply();
+                        }
                     }
                 }
+
+            }catch (Exception e)
+            {
+                Toast.makeText(RoomKey.this,"Something went wrong on our side, please try again",Toast.LENGTH_LONG).show();
             }
         }
 

@@ -130,29 +130,28 @@ public class SignIn extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            if(result.contentEquals("nothing"))
-            {
-                Toast.makeText(SignIn.this,"Your email or password is wrong, please try again",Toast.LENGTH_LONG).show();
-            }else
-            {
-                String dbemail = preferences.getString("memail", "");
-                String dbpass = preferences.getString("mpass", "");
-                final ArrayList<LoginData> p = proccessData(result);
-                if(p != null)
-                {
-                    for(LoginData elem : p)
-                    {
-                        int id = elem.CustomerID;
-                        preferences.edit().putInt("CID",id).apply();
-                        if(elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
-                            startActivity(new Intent(SignIn.this,MainActivity.class));
+            try {
+                if (result.contentEquals("nothing")) {
+                    Toast.makeText(SignIn.this, "Your email or password is wrong, please try again", Toast.LENGTH_LONG).show();
+                } else {
+                    String dbemail = preferences.getString("memail", "");
+                    String dbpass = preferences.getString("mpass", "");
+                    final ArrayList<LoginData> p = proccessData(result);
+                    if (p != null) {
+                        for (LoginData elem : p) {
+                            int id = elem.CustomerID;
+                            preferences.edit().putInt("CID", id).apply();
+                            if (elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
+                                startActivity(new Intent(SignIn.this, MainActivity.class));
+                        }
+
                     }
 
                 }
-
+            }catch (Exception e)
+            {
+                Toast.makeText(SignIn.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
             }
-
-
         }
 
     }

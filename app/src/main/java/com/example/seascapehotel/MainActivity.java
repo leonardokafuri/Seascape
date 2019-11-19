@@ -1,5 +1,6 @@
 package com.example.seascapehotel;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -20,6 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -96,7 +102,29 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
-    }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            String exception = task.getException().toString();
+                            //Log.w(TAG, "getInstanceId failed", task.getException());
+                            Toast.makeText(MainActivity.this,"getInstanceId failed: "+exception, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        //Log.d(TAG, msg);
+                        System.out.println("TOKEN: "+ msg);
+                       // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }//end of OnCreate
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

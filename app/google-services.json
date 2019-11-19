@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "643192863215",
+    "firebase_url": "https://seascapehotel-1573348441406.firebaseio.com",
+    "project_id": "seascapehotel-1573348441406",
+    "storage_bucket": "seascapehotel-1573348441406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643192863215:android:0f05433bd914ace3f05e1a",
+        "android_client_info": {
+          "package_name": "com.example.seascapehotel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643192863215-1pus8sm140mfvi05a7mnla4h1stht7lc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.seascapehotel",
+            "certificate_hash": "dd852135e299d0eb042192bc5b8378120a2867d2"
+          }
+        },
+        {
+          "client_id": "643192863215-q5aevdka7pnad1fbgvocr418m05bpgo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8p1bGKRkqZqt2wFau4nJJxaTkzfwFTMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643192863215-q5aevdka7pnad1fbgvocr418m05bpgo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643192863215:android:ddcfa887db082998f05e1a",
+        "android_client_info": {
+          "package_name": "com.mauricio.seascapehotel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643192863215-m41mvsqtqagutcg23notv1b0okmpgb7m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mauricio.seascapehotel",
+            "certificate_hash": "dd852135e299d0eb042192bc5b8378120a2867d2"
+          }
+        },
+        {
+          "client_id": "643192863215-q5aevdka7pnad1fbgvocr418m05bpgo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8p1bGKRkqZqt2wFau4nJJxaTkzfwFTMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643192863215-q5aevdka7pnad1fbgvocr418m05bpgo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,13 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -125,21 +122,27 @@ public class DisplayRooms extends AppCompatActivity {
                         LinearLayout layout = findViewById(R.id.lv);
                         ImageView iv;
                         TextView tv;
+                        TextView spacing;
                         Button btn;
                         for (final RoomData elem : p) {
-                            iv = new ImageView(DisplayRooms.this);
-                            Picasso.with(DisplayRooms.this).load(elem.Picture).into(iv);
                             tv = new TextView(DisplayRooms.this);
+                            iv = new ImageView(DisplayRooms.this);
+                            spacing = new TextView(DisplayRooms.this);
+                            Picasso.with(DisplayRooms.this).load(elem.Picture).into(iv);
+                            iv.setScaleType(ImageView.ScaleType.FIT_XY);
                             tv.append(elem.Name + "\n");
                             tv.append(elem.Description + "\n");
                             tv.append("$" + elem.Price + " Per Night");
+                            tv.setTextSize(15);
                             btn = new Button(DisplayRooms.this);
                             btn.setBackgroundResource(R.color.blue);
                             btn.setTextColor(Color.WHITE);
                             btn.setText("Book Room");
+                            spacing.append("\n");
                             layout.addView(iv);
                             layout.addView(tv);
                             layout.addView(btn);
+                            layout.addView(spacing);
                             btn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

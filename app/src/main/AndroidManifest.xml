@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PastBookings"></activity>
+        <activity android:name=".ViewReviews"></activity>
+        <activity android:name=".PastBookings" />
         <activity android:name=".Logout" />
         <activity android:name=".RoomKey" />
         <activity android:name=".DisplayBookings" />
@@ -23,16 +24,16 @@
         <activity android:name=".SignIn" />
         <activity android:name=".Register" />
         <activity android:name=".Login" />
-        <activity android:name=".FeedBack"/>
+        <activity android:name=".FeedBack" />
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.example.seascapehotel.MyFirebaseMessagingService">
+
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

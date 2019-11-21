@@ -140,7 +140,11 @@ public class SignIn extends AppCompatActivity {
                     if (p != null) {
                         for (LoginData elem : p) {
                             int id = elem.CustomerID;
+                            String lname = elem.Lastname;
+                            String fname = elem.Firstname;
                             preferences.edit().putInt("CID", id).apply();
+                            preferences.edit().putString("lgfname",fname).apply();
+                            preferences.edit().putString("lglname",lname).apply();
                             if (elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
                                 startActivity(new Intent(SignIn.this, MainActivity.class));
                         }
@@ -169,6 +173,8 @@ public class SignIn extends AppCompatActivity {
                 ld.Email = element.getString("Email");
                 ld.Password = element.getString("Password");
                 ld.CustomerID = element.getInt("CustomerID");
+                ld.Firstname = element.getString("FirstName");
+                ld.Lastname = element.getString("LastName");
                 temp.add(ld);
             }
             return  temp;

@@ -1,16 +1,25 @@
 package com.example.seascapehotel;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,72 +29,36 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
 
-public class FeedBack extends AppCompatActivity {
+public class ViewReviews extends AppCompatActivity {
     ProgressDialog pd;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
-        Button sendReview = findViewById(R.id.sendreview);
-        final TextView comments = findViewById(R.id.review);
-        final SharedPreferences preferences = this.getSharedPreferences(
-                "mypref", Context.MODE_PRIVATE);
-        sendReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               int i= preferences.getInt("CID",0);
-                if(i==0)
-                {
-                    Toast.makeText(FeedBack.this,"You need to Login first to make a review",Toast.LENGTH_LONG).show();
-                }else{
-                    String comment = comments.getText().toString();
-                    preferences.edit().putString("review", comment).apply();
-                    new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Review.php");
-                }
-
-            }
-        });
-
+        setContentView(R.layout.activity_view_reviews);
+        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ViewReviews.php");
     }
 
     private class JsonTask extends AsyncTask<String, String, String> {
-        final SharedPreferences preferences =FeedBack.this.getSharedPreferences(
-                "mypref", Context.MODE_PRIVATE);
 
         protected void onPreExecute() {
             super.onPreExecute();
-            pd = new ProgressDialog(FeedBack.this);
-            pd.setMessage("Saving your feedback ...");
+            pd = new ProgressDialog(ViewReviews.this);
+            pd.setMessage("Searching for reviews...");
             pd.setCancelable(false);
             pd.show();
         }
 
-
         protected String doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
-            Calendar c = Calendar.getInstance();
-            String fname = preferences.getString("lgfname","");
-            String lname = preferences.getString("lglname","");
-            String comment = preferences.getString("review","");
-            String date = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
-
             try {
-                String data = URLEncoder.encode("review","UTF-8")+ "=" +URLEncoder.encode(comment,"UTF-8");
-                data += "&" + URLEncoder.encode("date","UTF-8")+ "="+ URLEncoder.encode(date,"UTF-8");
-                data += "&" + URLEncoder.encode("fname","UTF-8")+ "="+ URLEncoder.encode(fname,"UTF-8");
-                data += "&" + URLEncoder.encode("lname","UTF-8")+ "="+ URLEncoder.encode(lname,"UTF-8");
                 try {
                     URL url = new URL(params[0]);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-                    wr.write(data);
                     wr.flush();
 
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -128,18 +101,65 @@ public class FeedBack extends AppCompatActivity {
             if (pd.isShowing()) {
                 pd.dismiss();
             }
-            try {
-                if (result.contentEquals("error"))
+            try{
+                if(result.equals("nothing"))
                 {
-                    Toast.makeText(FeedBack.this,"Something went wrong trying to add your feedback,please try again...",Toast.LENGTH_LONG).show();
+                    LinearLayout layout = findViewById(R.id.lv);
+                    TextView tv;
+                    tv= new TextView(ViewReviews.this);
+                    tv.append("No reviews made yet");
+                    layout.addView(tv);
+
                 }else
-                    startActivity(new Intent(FeedBack.this,MainActivity.class));
+                {
+                    final ArrayList<ReviewData> p = proccessData(result);
+                    if(p != null)
+                    {
+                        LinearLayout layout = findViewById(R.id.lv5);
+                        TextView tv;
+                        for(final ReviewData elem : p)
+                        {
+                            tv= new TextView(ViewReviews.this);
+                            tv.append("Guest comment: " +elem.comment +"\n \n");
+                            tv.append("Review left by: " + elem.fname + " " + elem.lname + "\n");
+                            tv.append("Date: "+elem.date + "\n");
+                            tv.append("------------------------------------------------------------------------------------------------------------");
+                            layout.addView(tv);
+                        }
+                    }
+                }
 
-            }catch (Exception e){
-                Toast.makeText(FeedBack.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
+            }catch (Exception e)
+            {
+                Toast.makeText(ViewReviews.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
             }
-
         }
 
+    }
+
+    private ArrayList<ReviewData> proccessData(String data)
+    {
+        ArrayList<ReviewData> temp = new ArrayList<>();
+        try{
+            JSONArray ar = new JSONArray(data);
+            JSONObject element;
+            ReviewData rd;
+            for(int i=0; i<ar.length();i++)
+            {
+                element = ar.getJSONObject(i);
+                rd = new ReviewData();
+                rd.fname = element.getString("Fname");
+                rd.lname = element.getString("Lname");
+                rd.comment = element.getString("Comment");
+                rd.date = element.getString("Date");
+                temp.add(rd);
+            }
+            return temp;
+
+        }catch (JSONException E)
+        {
+            Log.d("MainActivity",E.getMessage());
+        }
+        return null;
     }
 }

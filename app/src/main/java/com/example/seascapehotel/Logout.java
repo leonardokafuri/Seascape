@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Logout extends AppCompatActivity {
-
+    DatabaseHelper dbh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +23,13 @@ public class Logout extends AppCompatActivity {
         Button main = findViewById(R.id.backmain);
         log.append("You have been logged out!");
         preferences.edit().putInt("CID",0).apply();
+        dbh = new DatabaseHelper(this);
+        try{
+            dbh.onDelete();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         main.setOnClickListener(new View.OnClickListener() {
             @Override

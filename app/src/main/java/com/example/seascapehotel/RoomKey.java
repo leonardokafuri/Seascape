@@ -47,7 +47,7 @@ public class RoomKey extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_key);
 
-            new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/GenerateQR.php");
+            new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/GenerateQR.php");
     }
     private int getDimension() {
         //Find screen size

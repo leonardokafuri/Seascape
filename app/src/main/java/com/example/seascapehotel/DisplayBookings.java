@@ -44,14 +44,14 @@ public class DisplayBookings extends AppCompatActivity {
         setContentView(R.layout.activity_display_bookings);
         final SharedPreferences preferences =DisplayBookings.this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
-
+        DB = new DatabaseHelper(this);
         int i = preferences.getInt("CID",0);
         if(i==0)
         {
             Toast.makeText(DisplayBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
         }else
         {
-                new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/PastBookings.php");
+                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
         }
 
     }
@@ -135,6 +135,7 @@ public class DisplayBookings extends AppCompatActivity {
 
                 }else
                 {
+                    DB.onDelete();
                     final ArrayList<BookingData> p = proccessData(result);
                     if(p != null)
                     {
@@ -166,7 +167,6 @@ public class DisplayBookings extends AppCompatActivity {
                                     preferences.edit().putString("bkci",checkin).apply();
                                     preferences.edit().putString("bkco",checkout).apply();
                                     preferences.edit().putString("qrRoom",elem.RoomID).apply();
-
                                     //start Qr activity
                                     startActivity(new Intent(DisplayBookings.this,RoomKey.class));
                                 }
@@ -180,41 +180,46 @@ public class DisplayBookings extends AppCompatActivity {
                 LinearLayout layout = findViewById(R.id.lv);
                 TextView tv;
                 Button btn;
-                final Cursor c = DB.localData();
-                if(c.moveToFirst()){
-                    while(!c.isAfterLast()){
-                        tv= new TextView(DisplayBookings.this);
-                        tv.append(c.getString(c.getColumnIndex("Name")) +"\n");
-                        tv.append(c.getString(c.getColumnIndex("Description")) +"\n");
-                        tv.append("$" + c.getString(c.getColumnIndex("Total")) +"\n");
-                        tv.append("Checkin: " + c.getString(c.getColumnIndex("Checkin")) +
-                                "         Checkout: " + c.getString(c.getColumnIndex("Checkout")) +"\n");
-                        tv.append(c.getString(c.getColumnIndex("Email")) +"\n");
-                        final String checkin =c.getString(c.getColumnIndex("Checkin"));
-                        final String checkout =c.getString(c.getColumnIndex("Checkout"));
-                        final String RID = c.getString(c.getColumnIndex("RoomID"));
-                        btn = new Button(DisplayBookings.this);
-                        btn.setBackgroundResource(R.color.blue);
-                        btn.setTextColor(Color.WHITE);
-                        btn.setText("Generate Room Key");
-                        layout.addView(tv);
-                        layout.addView(btn);
-                        c.moveToNext();
-                        btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // if booked room has been choosen
-                                //save checkin, checkout in shared pref for qr
-                                preferences.edit().putString("bkci",checkin).apply();
-                                preferences.edit().putString("bkco",checkout).apply();
-                                preferences.edit().putString("qrRoom",RID).apply();
-                                //start Qr activity
-                                startActivity(new Intent(DisplayBookings.this,RoomKey.class));
-                            }
-                        });
+                try{
+                    final Cursor c = DB.localData();
+                    if(c.moveToFirst()){
+                        while(!c.isAfterLast()){
+                            tv= new TextView(DisplayBookings.this);
+                            tv.append(c.getString(c.getColumnIndex("Name")) +"\n");
+                            tv.append(c.getString(c.getColumnIndex("Description")) +"\n");
+                            tv.append("$" + c.getString(c.getColumnIndex("Total")) +"\n");
+                            tv.append("Checkin: " + c.getString(c.getColumnIndex("Checkin")) +
+                                    "         Checkout: " + c.getString(c.getColumnIndex("Checkout")) +"\n");
+                            tv.append(c.getString(c.getColumnIndex("Email")) +"\n");
+                            final String checkin =c.getString(c.getColumnIndex("Checkin"));
+                            final String checkout =c.getString(c.getColumnIndex("Checkout"));
+                            final String RID = c.getString(c.getColumnIndex("RoomID"));
+                            btn = new Button(DisplayBookings.this);
+                            btn.setBackgroundResource(R.color.blue);
+                            btn.setTextColor(Color.WHITE);
+                            btn.setText("Generate Room Key");
+                            layout.addView(tv);
+                            layout.addView(btn);
+                            c.moveToNext();
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // if booked room has been choosen
+                                    //save checkin, checkout in shared pref for qr
+                                    preferences.edit().putString("bkci",checkin).apply();
+                                    preferences.edit().putString("bkco",checkout).apply();
+                                    preferences.edit().putString("qrRoom",RID).apply();
+                                    //start Qr activity
+                                    startActivity(new Intent(DisplayBookings.this,RoomKey.class));
+                                }
+                            });
+                        }
                     }
+                    Toast.makeText(DisplayBookings.this,"Check your internet connection",Toast.LENGTH_LONG).show();
+                }catch (Exception a)
+                {
+                    Toast.makeText(DisplayBookings.this,"No bookings stored on this device",Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(DisplayBookings.this,"Check your internt connection",Toast.LENGTH_LONG).show();
             }
         }
 

@@ -101,7 +101,7 @@ public class Register extends AppCompatActivity {
                   preferences.edit().putString("rpass",rpass).apply();
                   preferences.edit().putString("rfname",rfname).apply();
                   preferences.edit().putString("rlname",rlname).apply();
-                  new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/Register.php");
+                  new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Register.php");
                   //new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/Register.php");
                 }
             }

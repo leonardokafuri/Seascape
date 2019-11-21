@@ -35,7 +35,7 @@ public class SuccessfulPayment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_payment);
 
-        new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/BookRoom.php");
+        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/BookRoom.php");
 
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {

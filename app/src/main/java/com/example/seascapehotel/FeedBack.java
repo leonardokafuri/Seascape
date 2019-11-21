@@ -45,7 +45,7 @@ public class FeedBack extends AppCompatActivity {
                 }else{
                     String comment = comments.getText().toString();
                     preferences.edit().putString("review", comment).apply();
-                    new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Review.php");
+                    new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/Review.php");
                 }
 
             }

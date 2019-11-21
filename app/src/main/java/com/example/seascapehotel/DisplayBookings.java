@@ -49,7 +49,7 @@ public class DisplayBookings extends AppCompatActivity {
             Toast.makeText(DisplayBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
         }else
         {
-                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
+                new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/PastBookings.php");
         }
 
     }

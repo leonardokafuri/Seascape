@@ -39,7 +39,7 @@ public class DisplayRooms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_rooms);
 
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/SearchRoom.php");
+        new JsonTask().execute("http://ec2-54-196-138-183.compute-1.amazonaws.com/hotel/SearchRoom.php");
 
     }
 

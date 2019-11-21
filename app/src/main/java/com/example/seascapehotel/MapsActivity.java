@@ -15,8 +15,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
-
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -39,9 +37,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.getUiSettings().setZoomControlsEnabled(true);
         // Add a marker at Douglas College and move the camera
         //mMap.getCameraPosition();
-        System.out.println("----------------------------------------");
 
-        System.out.println("----------------------------------------");
+        //49.203575, -122.912765
+
+        LatLng Seascape = new LatLng(49.203575, -122.912765);
         LatLng MyLocation = new LatLng(49.203707, -122.911805);
         LatLng DouglasCollege = new LatLng(49.203566, -122.912712);
         LatLng TimHortons = new LatLng(49.201552, -122.913026);
@@ -54,18 +53,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng bubble = new LatLng(49.204970, -122.910177);
 
         //49.203002, -122.910789
+        String message = "Show your active QR code and get ";
 
         //mMap.addMarker(new MarkerOptions().position(DouglasCollege).title("Marker in Douglas College").snippet("Your location"));
-        mMap.addMarker(new MarkerOptions().position(TimHortons).title("Tim Hortons").snippet("Get 25% discount on all beverages!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(oldSpagetti).title("The Old Spaghetti").snippet("Get 15% discount and 1 free drink!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(cinema).title("LandMark Cinema").snippet("Get 20% discount on tickets!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(oldBavaria).title("The Old Bavaria Haus Restaurant").snippet("Get 10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(hyack).title("Hyack Sushi").snippet("Get 10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(banh).title("Banh Mi Bar").snippet("Get 10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(bubble).title("Bubble World").snippet("Get 10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
-        mMap.addMarker(new MarkerOptions().position(pizza).title("Pizzeria Ludica").snippet("Get 10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(Seascape).title("Seascape Hotel").snippet("Your hotel is here!").icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel)));
+        mMap.addMarker(new MarkerOptions().position(TimHortons).title("Tim Hortons").snippet(message+"25% discount on all beverages!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(oldSpagetti).title("The Old Spaghetti").snippet(message+"15% discount and 1 free drink!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(cinema).title("LandMark Cinema").snippet(message+"20% discount on tickets!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(oldBavaria).title("The Old Bavaria Haus Restaurant").snippet(message+"10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(hyack).title("Hyack Sushi").snippet(message+"10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(banh).title("Banh Mi Bar").snippet(message+"10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(bubble).title("Bubble World").snippet(message+"10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
+        mMap.addMarker(new MarkerOptions().position(pizza).title("Pizzeria Ludica").snippet(message+"10% discount!").icon(BitmapDescriptorFactory.fromResource(R.drawable.percentage)));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MyLocation, 16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Seascape, 16));
 
 
 

@@ -34,7 +34,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class RoomKey extends AppCompatActivity {
 
@@ -43,20 +45,8 @@ public class RoomKey extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_key);
-        final TextView tv = (TextView) findViewById(R.id.txtView);
-        final ImageView iv = (ImageView) findViewById(R.id.imgV);
-        final SharedPreferences preferences =RoomKey.this.getSharedPreferences(
-                "mypref", Context.MODE_PRIVATE);
 
             new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/GenerateQR.php");
-
-
-        String mesg = preferences.getString("qrmsg","");
-        String Room = preferences.getString("qrRoom","");
-        int dimension =getDimension();
-        Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
-        tv.setText("Scan this key to open your room " + Room);
-        iv.setImageBitmap(bitmap);
     }
     private int getDimension() {
         //Find screen size
@@ -143,13 +133,12 @@ public class RoomKey extends AppCompatActivity {
                 pd.dismiss();
             }
             try{
+                Calendar c = Calendar.getInstance();
+                final ImageView iv = (ImageView) findViewById(R.id.imgV);
+                final TextView tv = (TextView) findViewById(R.id.txtView);
                 if(result.contentEquals("error"))
                 {
-                    LinearLayout layout = findViewById(R.id.lv2);
-                    TextView tv;
-                    tv= new TextView(RoomKey.this);
-                    tv.append("No bookings made to genereate a key");
-                    layout.addView(tv);
+                    tv.append("Something went wrong :(");
                 }else
                 {
                     final ArrayList<QRcodeData> p = proccessData(result);
@@ -157,12 +146,37 @@ public class RoomKey extends AppCompatActivity {
                     {
                         for(final QRcodeData elem : p)
                         {
-                            String mesg = elem.ReservationID;
-                            mesg += "  "+elem.CustomerID+"  ";
-                            mesg+= elem.Checkin+"  ";
-                            mesg += elem.Checkout+ "  ";
-                            mesg += elem.RoomID +"  ";
-                            preferences.edit().putString("qrmsg",mesg).apply();
+                            if(c.getTime().before(new SimpleDateFormat("yyyy-MM-dd").parse(elem.Checkin)) || c.getTime().after(new SimpleDateFormat("yyyy-MM-dd").parse(elem.Checkout)))
+                            {
+                                    String invalid ="NOT ACTIVATED";
+                                    String mesg = elem.ReservationID;
+                                    mesg += ","+elem.CustomerID+",";
+                                    mesg+= elem.Checkin+",";
+                                    mesg += elem.Checkout+ ",";
+                                    mesg += elem.RoomID +",";
+                                    mesg += invalid;
+                                    int dimension =getDimension();
+                                    Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
+                                    tv.append("Your room is : " + elem  .RoomID +"\n");
+                                    tv.append("Your key status is : " + invalid);
+                                    iv.setImageBitmap(bitmap);
+
+                            }
+                            else
+                            {
+                                String valid ="ACTIVATED";
+                                String mesg = elem.ReservationID;
+                                mesg += ","+elem.CustomerID+",";
+                                mesg+= elem.Checkin+",";
+                                mesg += elem.Checkout+ ",";
+                                mesg += elem.RoomID +",";
+                                mesg += valid;
+                                int dimension =getDimension();
+                                Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
+                                tv.append("Your room is : " + elem  .RoomID +"\n");
+                                tv.append("Your key status is : " + valid);
+                                iv.setImageBitmap(bitmap);
+                            }
                         }
                     }
                 }

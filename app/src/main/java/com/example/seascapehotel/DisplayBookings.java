@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 
 public class DisplayBookings extends AppCompatActivity {
     ProgressDialog pd;
+    DatabaseHelper DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +155,7 @@ public class DisplayBookings extends AppCompatActivity {
                             btn.setText("Generate Room Key");
                             layout.addView(tv);
                             layout.addView(btn);
-
+                            DB.passData(Integer.parseInt(elem.RoomID),elem.Checkin,elem.Checkout,elem.Description,elem.Email,elem.Name,Double.parseDouble(elem.Total));
                             btn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -164,6 +166,7 @@ public class DisplayBookings extends AppCompatActivity {
                                     preferences.edit().putString("bkci",checkin).apply();
                                     preferences.edit().putString("bkco",checkout).apply();
                                     preferences.edit().putString("qrRoom",elem.RoomID).apply();
+
                                     //start Qr activity
                                     startActivity(new Intent(DisplayBookings.this,RoomKey.class));
                                 }
@@ -174,7 +177,44 @@ public class DisplayBookings extends AppCompatActivity {
 
             }catch (Exception e)
             {
-                Toast.makeText(DisplayBookings.this,"Something went wrong on our side, please try again later",Toast.LENGTH_LONG).show();
+                LinearLayout layout = findViewById(R.id.lv);
+                TextView tv;
+                Button btn;
+                final Cursor c = DB.localData();
+                if(c.moveToFirst()){
+                    while(!c.isAfterLast()){
+                        tv= new TextView(DisplayBookings.this);
+                        tv.append(c.getString(c.getColumnIndex("Name")) +"\n");
+                        tv.append(c.getString(c.getColumnIndex("Description")) +"\n");
+                        tv.append("$" + c.getString(c.getColumnIndex("Total")) +"\n");
+                        tv.append("Checkin: " + c.getString(c.getColumnIndex("Checkin")) +
+                                "         Checkout: " + c.getString(c.getColumnIndex("Checkout")) +"\n");
+                        tv.append(c.getString(c.getColumnIndex("Email")) +"\n");
+                        final String checkin =c.getString(c.getColumnIndex("Checkin"));
+                        final String checkout =c.getString(c.getColumnIndex("Checkout"));
+                        final String RID = c.getString(c.getColumnIndex("RoomID"));
+                        btn = new Button(DisplayBookings.this);
+                        btn.setBackgroundResource(R.color.blue);
+                        btn.setTextColor(Color.WHITE);
+                        btn.setText("Generate Room Key");
+                        layout.addView(tv);
+                        layout.addView(btn);
+                        c.moveToNext();
+                        btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // if booked room has been choosen
+                                //save checkin, checkout in shared pref for qr
+                                preferences.edit().putString("bkci",checkin).apply();
+                                preferences.edit().putString("bkco",checkout).apply();
+                                preferences.edit().putString("qrRoom",RID).apply();
+                                //start Qr activity
+                                startActivity(new Intent(DisplayBookings.this,RoomKey.class));
+                            }
+                        });
+                    }
+                }
+                Toast.makeText(DisplayBookings.this,"Check your internt connection",Toast.LENGTH_LONG).show();
             }
         }
 

@@ -34,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -183,7 +184,46 @@ public class RoomKey extends AppCompatActivity {
 
             }catch (Exception e)
             {
-                Toast.makeText(RoomKey.this,"Something went wrong on our side, please try again",Toast.LENGTH_LONG).show();
+                final ImageView iv = (ImageView) findViewById(R.id.imgV);
+                final TextView tv = (TextView) findViewById(R.id.txtView);
+                Calendar c = Calendar.getInstance();
+
+                try {
+                    if(c.getTime().before(new SimpleDateFormat("yyyy-MM-dd").parse( preferences.getString("bkci",""))) || c.getTime().after(new SimpleDateFormat("yyyy-MM-dd").parse( preferences.getString("bkco",""))))
+                    {
+                        String invalid ="NOT ACTIVATED";
+                        String mesg = preferences.getString("RID","");
+                        mesg += ","+preferences.getInt("CID",0)+",";
+                        mesg+= preferences.getString("qrRoom","")+",";
+                        mesg+= preferences.getString("bkci","")+",";
+                        mesg+= preferences.getString("bkco","");
+                        mesg += invalid;
+                        int dimension =getDimension();
+                        Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
+                        tv.append("Your room is : " + preferences.getString("RID","")+"\n");
+                        tv.append("Your key status is : " + invalid);
+                        iv.setImageBitmap(bitmap);
+                    }
+                    else
+                    {
+
+                        String valid ="ACTIVATED";
+                        String mesg = preferences.getString("RID","");
+                        mesg += ","+preferences.getInt("CID",0)+",";
+                        mesg+= preferences.getString("qrRoom","")+",";
+                        mesg+= preferences.getString("bkci","")+",";
+                        mesg+= preferences.getString("bkco","");
+                        mesg += valid;
+                        int dimension =getDimension();
+                        Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
+                        tv.append("Your room is : " + preferences.getString("RID","")+"\n");
+                        tv.append("Your key status is : " + valid);
+                        iv.setImageBitmap(bitmap);
+                    }
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+                Toast.makeText(RoomKey.this,"Check your internet connection",Toast.LENGTH_LONG).show();
             }
         }
 

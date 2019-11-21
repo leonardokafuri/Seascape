@@ -6,4 +6,10 @@
     <item android:id="@+id/logout"
         android:title="Logout"
         />
+    <item android:id="@+id/feedback"
+    android:title="Make Review"
+    />
+    <item android:id="@+id/viewfeedback"
+        android:title="View Reviews"
+        />
 </menu>

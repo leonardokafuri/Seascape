@@ -169,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             case R.id.logout:
                 startActivity(new Intent(MainActivity.this,Logout.class));
                 return true;
+            case R.id.feedback:
+                startActivity(new Intent(MainActivity.this,FeedBack.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

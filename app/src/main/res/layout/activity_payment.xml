@@ -54,16 +54,16 @@
 
     <EditText
         android:id="@+id/nameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginLeft="48dp"
+        android:layout_width="361dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
         android:layout_marginTop="60dp"
+        android:background="@color/inputcolor"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -78,56 +78,47 @@
 
     <EditText
         android:id="@+id/cardnumberEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="345dp"
+        android:layout_height="36dp"
         android:layout_marginStart="52dp"
         android:layout_marginLeft="52dp"
-        android:layout_marginTop="148dp"
-        android:hint="1234-1234-1234-1234"
+        android:layout_marginTop="156dp"
+        android:background="@color/inputcolor"
         android:ems="10"
-        android:maxLength="19"
+        android:hint="1234-1234-1234-1234"
         android:inputType="number"
+        android:maxLength="19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="348dp"
-        android:layout_marginLeft="348dp"
-        android:layout_marginTop="148dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bt_ic_visa" />
-
-
     <EditText
         android:id="@+id/expdateEditText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_width="139dp"
+        android:layout_height="38dp"
         android:layout_marginStart="52dp"
         android:layout_marginLeft="52dp"
         android:layout_marginTop="244dp"
-        android:hint="MM/YY"
-        android:maxLength="5"
+        android:background="@color/inputcolor"
         android:ems="10"
+        android:hint="MM/YY"
         android:inputType="date"
+        android:maxLength="5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/cvvEditText"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginLeft="212dp"
+        android:layout_width="87dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginLeft="252dp"
         android:layout_marginTop="244dp"
-        android:maxLength="3"
-        android:hint="123"
+        android:background="@color/inputcolor"
         android:ems="10"
+        android:hint="123"
         android:inputType="numberPassword"
+        android:maxLength="3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -135,11 +126,11 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginLeft="212dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginLeft="252dp"
         android:layout_marginTop="208dp"
-        android:textColor="@color/black"
         android:text="CVV"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -168,12 +159,12 @@
 
     <EditText
         android:id="@+id/postalcodeEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_width="361dp"
+        android:layout_height="39dp"
         android:layout_marginStart="52dp"
         android:layout_marginLeft="52dp"
         android:layout_marginTop="340dp"
+        android:background="@color/inputcolor"
         android:ems="10"
         android:inputType="textPostalAddress"
         app:layout_constraintStart_toStartOf="parent"
@@ -216,30 +207,33 @@
 
     <EditText
         android:id="@+id/codeEditText"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginLeft="56dp"
+        android:layout_width="52dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
         android:layout_marginTop="444dp"
+        android:background="@color/inputcolor"
         android:digits="+123456789"
         android:ems="10"
         android:hint="+1"
-        android:maxLength="18"
         android:inputType="phone"
+        android:maxLength="18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/mobileEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="234dp"
+        android:layout_height="35dp"
         android:layout_marginStart="176dp"
         android:layout_marginLeft="176dp"
         android:layout_marginTop="444dp"
+        android:background="@color/inputcolor"
+        android:digits="+123456789"
         android:ems="10"
         android:hint="(123) 123-1234"
         android:inputType="phone"
-        android:digits="+123456789"
+        android:maxLength="10"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -260,20 +254,20 @@
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="252dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="256dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_card_date" />
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="284dp"
-        android:layout_marginLeft="284dp"
-        android:layout_marginTop="252dp"
+        android:layout_width="17dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginLeft="216dp"
+        android:layout_marginTop="256dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_card_cvc" />

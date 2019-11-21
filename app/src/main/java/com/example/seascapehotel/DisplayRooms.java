@@ -40,6 +40,7 @@ public class DisplayRooms extends AppCompatActivity {
         setContentView(R.layout.activity_display_rooms);
 
         new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/SearchRoom.php");
+
     }
 
     private class JsonTask extends AsyncTask<String, String, String> {

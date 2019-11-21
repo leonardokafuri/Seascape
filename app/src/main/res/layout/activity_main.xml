@@ -184,6 +184,7 @@
             android:textColor="@color/white" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/nearbyplaces"
         android:layout_width="100dp"
         android:layout_height="120dp"
         android:background="@drawable/relative_layout_backgroundattractions"

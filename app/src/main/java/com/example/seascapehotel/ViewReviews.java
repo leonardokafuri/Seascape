@@ -102,9 +102,9 @@ public class ViewReviews extends AppCompatActivity {
                 pd.dismiss();
             }
             try{
-                if(result.equals("nothing"))
+                if(result.contentEquals("nothing"))
                 {
-                    LinearLayout layout = findViewById(R.id.lv);
+                    LinearLayout layout = findViewById(R.id.lv5);
                     TextView tv;
                     tv= new TextView(ViewReviews.this);
                     tv.append("No reviews made yet");

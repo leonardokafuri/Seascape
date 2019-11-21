@@ -1,6 +1,7 @@
 package com.example.seascapehotel;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -8,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -28,7 +30,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -72,16 +77,48 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+        RelativeLayout nearbyPlaces = findViewById(R.id.nearbyplaces);
+        nearbyPlaces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,MapsActivity.class));
+            }
+        });
+
         search.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 if(date1.getText().toString().isEmpty() ||date2.getText().toString().isEmpty() )
                 {
                     Toast.makeText(MainActivity.this,"Please select a date",Toast.LENGTH_SHORT).show();
                 }else {
-                    String guest = spinner.getSelectedItem().toString();
-                    preferences.edit().putString("guests",guest).apply();
-                    startActivity(new Intent(MainActivity.this,DisplayRooms.class));
+                    Calendar c = Calendar.getInstance();
+                    String d1 = preferences.getString("checkin","");
+                    String d2 = preferences.getString("checkout","");
+                    try {
+                        if(new SimpleDateFormat("yyyy-MM-dd").parse(d1).before(c.getTime()) ||new SimpleDateFormat("yyyy-MM-dd").parse(d2).before(c.getTime()) )
+                        {
+                            Toast.makeText(MainActivity.this, "You need to select a date starting from today", Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            LocalDate dateBefore = LocalDate.parse(preferences.getString("checkin",""));
+                            LocalDate dateAfter = LocalDate.parse(preferences.getString("checkout",""));
+                            long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+                            int i = (int) noOfDaysBetween;
+                            if(i<0)
+                            {
+                                Toast.makeText(MainActivity.this,"Your number of days can't be negative",Toast.LENGTH_SHORT).show();
+                            }else{
+                                String guest = spinner.getSelectedItem().toString();
+                                preferences.edit().putString("guests",guest).apply();
+                                startActivity(new Intent(MainActivity.this,DisplayRooms.class));
+                            }
+
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
                 }
             }

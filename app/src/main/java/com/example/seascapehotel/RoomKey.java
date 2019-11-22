@@ -192,7 +192,7 @@ public class RoomKey extends AppCompatActivity {
                     if(c.getTime().before(new SimpleDateFormat("yyyy-MM-dd").parse( preferences.getString("bkci",""))) || c.getTime().after(new SimpleDateFormat("yyyy-MM-dd").parse( preferences.getString("bkco",""))))
                     {
                         String invalid ="NOT ACTIVATED";
-                        String mesg = preferences.getString("RID","");
+                        String mesg = preferences.getString("qrRoom","");
                         mesg += ","+preferences.getInt("CID",0)+",";
                         mesg+= preferences.getString("qrRoom","")+",";
                         mesg+= preferences.getString("bkci","")+",";
@@ -200,7 +200,7 @@ public class RoomKey extends AppCompatActivity {
                         mesg += invalid;
                         int dimension =getDimension();
                         Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
-                        tv.append("Your room is : " + preferences.getString("RID","")+"\n");
+                        tv.append("Your room is : " + preferences.getString("qrRoom","")+"\n");
                         tv.append("Your key status is : " + invalid);
                         iv.setImageBitmap(bitmap);
                     }
@@ -208,7 +208,7 @@ public class RoomKey extends AppCompatActivity {
                     {
 
                         String valid ="ACTIVATED";
-                        String mesg = preferences.getString("RID","");
+                        String mesg = preferences.getString("qrRoom","");
                         mesg += ","+preferences.getInt("CID",0)+",";
                         mesg+= preferences.getString("qrRoom","")+",";
                         mesg+= preferences.getString("bkci","")+",";
@@ -216,7 +216,7 @@ public class RoomKey extends AppCompatActivity {
                         mesg += valid;
                         int dimension =getDimension();
                         Bitmap bitmap = QRCode.generate(mesg, dimension, RoomKey.this);
-                        tv.append("Your room is : " + preferences.getString("RID","")+"\n");
+                        tv.append("Your room is : " + preferences.getString("qrRoom","")+"\n");
                         tv.append("Your key status is : " + valid);
                         iv.setImageBitmap(bitmap);
                     }

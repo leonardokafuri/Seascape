@@ -146,10 +146,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                         if (!task.isSuccessful()) {
                             String exception = task.getException().toString();
                             //Log.w(TAG, "getInstanceId failed", task.getException());
-                            Toast.makeText(MainActivity.this,"getInstanceId failed: "+exception, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(MainActivity.this,"getInstanceId failed: "+exception, Toast.LENGTH_LONG).show();
                             return;
                         }
-
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
 
@@ -211,6 +210,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 return true;
             case R.id.viewfeedback:
                 startActivity(new Intent(MainActivity.this,ViewReviews.class));
+                return true;
+            case R.id.futurebookings:
+                startActivity(new Intent(MainActivity.this,FutureBookings.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

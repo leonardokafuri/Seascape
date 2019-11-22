@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/PastBookings"
-    android:title="PastBookings"
+    android:title="Past Bookings"
     />
     <item android:id="@+id/logout"
         android:title="Logout"
@@ -11,5 +11,8 @@
     />
     <item android:id="@+id/viewfeedback"
         android:title="View Reviews"
+        />
+    <item android:id="@+id/futurebookings"
+        android:title="Cancel a booking"
         />
 </menu>

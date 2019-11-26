@@ -42,12 +42,15 @@ import java.util.Calendar;
 public class RoomKey extends AppCompatActivity {
 
     ProgressDialog pd;
+    String URL = API.URL;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_key);
 
-            new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/GenerateQR.php");
+            new JsonTask().execute(URL+"GenerateQR.php");
     }
     private int getDimension() {
         //Find screen size

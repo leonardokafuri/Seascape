@@ -30,12 +30,14 @@ import java.time.temporal.ChronoUnit;
 
 public class SuccessfulDeletion extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_deletion);
 
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/deletebooking.php");
+        new JsonTask().execute(URL+"deletebooking.php");
         Button back  = findViewById(R.id.backButtonmainpg);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

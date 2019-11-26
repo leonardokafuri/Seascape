@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 public class SignIn extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,7 @@ public class SignIn extends AppCompatActivity {
                 String mpass = password.getText().toString();
                 preferences.edit().putString("memail",memail).apply();
                 preferences.edit().putString("mpass",mpass).apply();
-                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Login.php");
+                new JsonTask().execute(URL+"Login.php");
                // new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/Login.php");
             }
         });

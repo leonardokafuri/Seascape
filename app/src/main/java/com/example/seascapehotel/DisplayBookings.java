@@ -38,6 +38,8 @@ import java.util.ArrayList;
 public class DisplayBookings extends AppCompatActivity {
     ProgressDialog pd;
     DatabaseHelper DB;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,7 @@ public class DisplayBookings extends AppCompatActivity {
             Toast.makeText(DisplayBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
         }else
         {
-                new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
+                new JsonTask().execute(URL+"PastBookings.php");
         }
 
     }

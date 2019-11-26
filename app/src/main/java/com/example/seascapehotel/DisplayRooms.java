@@ -33,13 +33,14 @@ import java.util.ArrayList;
 
 public class DisplayRooms extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_rooms);
 
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/SearchRoom.php");
+        new JsonTask().execute(URL+"SearchRoom.php");
 
     }
 

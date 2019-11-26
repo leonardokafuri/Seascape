@@ -33,6 +33,8 @@ import java.util.ArrayList;
 
 public class PastBookings extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class PastBookings extends AppCompatActivity {
         {
             Toast.makeText(PastBookings.this,"You need to login first",Toast.LENGTH_LONG).show();
         }else
-            new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/PastBookings.php");
+            new JsonTask().execute(URL+"PastBookings.php");
     }
     private class JsonTask extends AsyncTask<String, String, String> {
         final SharedPreferences preferences =PastBookings.this.getSharedPreferences(

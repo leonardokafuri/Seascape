@@ -30,12 +30,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SuccessfulPayment extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_payment);
 
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/BookRoom.php");
+        new JsonTask().execute(URL+"BookRoom.php");
 
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {

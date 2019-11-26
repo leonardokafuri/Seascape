@@ -27,6 +27,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class FeedBack extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class FeedBack extends AppCompatActivity {
                 }else{
                     String comment = comments.getText().toString();
                     preferences.edit().putString("review", comment).apply();
-                    new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/Review.php");
+                    new JsonTask().execute(URL+"Review.php");
                 }
 
             }

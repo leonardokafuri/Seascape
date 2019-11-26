@@ -33,11 +33,13 @@ import java.util.ArrayList;
 
 public class ViewReviews extends AppCompatActivity {
     ProgressDialog pd;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reviews);
-        new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ViewReviews.php");
+        new JsonTask().execute(URL+"ViewReviews.php");
     }
 
     private class JsonTask extends AsyncTask<String, String, String> {

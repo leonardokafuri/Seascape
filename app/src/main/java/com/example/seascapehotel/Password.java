@@ -32,6 +32,8 @@ import java.util.ArrayList;
 public class Password extends AppCompatActivity {
     ProgressDialog pd;
     DatabaseHelper dbh;
+    String URL = API.URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class Password extends AppCompatActivity {
                 try{
                     String useremail = email.getText().toString();
                     preferences.edit().putString("rpassemail",useremail).apply();
-                   new JsonTask().execute("http://10.0.2.2:8888/MAMP/hotel/ForgotPassword.php");
+                   new JsonTask().execute(URL+"ForgotPassword.php");
                    // new JsonTask().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ForgotPassword.php");
                     String dbmail = preferences.getString("resetmail", "");
                     int cid = preferences.getInt("rcid",0);

@@ -77,7 +77,7 @@ public class Password extends AppCompatActivity {
                 String token =sentCode.getText().toString();
                 String retrievedtoken = preferences.getString("token","");
                 if(token.contentEquals(retrievedtoken))
-                new JsonTask2().execute("http://10.0.2.2:8888/MAMP/hotel/ResetPassword.php");
+                new JsonTask2().execute(URL+"ResetPassword.php");
                // new JsonTask2().execute("http://ec2-3-83-207-177.compute-1.amazonaws.com/ResetPassword.php");
             }
         });

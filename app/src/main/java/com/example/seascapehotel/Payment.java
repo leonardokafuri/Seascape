@@ -87,7 +87,7 @@ public class Payment extends AppCompatActivity {
                               phone.requestFocus();
                               return;
                           }
-                          if(cardnumber.getText().toString().length() >= 16){
+                          if(cardnumber.getText().toString().length() > 16){
                               cardnumber.setError("Card Number must be lesser than 16 Characters");
                               cardnumber.requestFocus();
                               return;

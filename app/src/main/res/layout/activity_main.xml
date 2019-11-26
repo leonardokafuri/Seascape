@@ -6,8 +6,6 @@
     android:layout_height="wrap_content"
     android:textAllCaps="false"
     android:background="@drawable/background"
-
-
     tools:context=".MainActivity">
 
 
@@ -29,10 +27,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageLogin"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="50dp"
         android:text="Book now"
         android:textColor="@color/white"
         app:fontFamily="serif" />
+    <TextView
+        android:id="@+id/tvBooking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="75dp"
+        android:text="" />
 
     <RelativeLayout
         android:id="@+id/CheckinRel"
@@ -252,6 +258,8 @@
             android:textColor="@color/black"
             />
     </RelativeLayout>
+
+
 
 
 </RelativeLayout>

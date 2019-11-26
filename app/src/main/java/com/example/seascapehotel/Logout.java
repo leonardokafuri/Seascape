@@ -23,6 +23,8 @@ public class Logout extends AppCompatActivity {
         Button main = findViewById(R.id.backmain);
         log.append("You have been logged out!");
         preferences.edit().putInt("CID",0).apply();
+        preferences.edit().putString("lgfname","-").apply();
+        preferences.edit().putString("bkci","-").apply();
         dbh = new DatabaseHelper(this);
         try{
             dbh.onDelete();

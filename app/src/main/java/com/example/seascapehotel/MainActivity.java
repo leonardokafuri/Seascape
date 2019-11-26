@@ -29,6 +29,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,13 +44,32 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
       final  SharedPreferences preferences = this.getSharedPreferences(
                 "mypref", Context.MODE_PRIVATE);
       Button search = findViewById(R.id.signIn);
       final TextView date1 = findViewById(R.id.checkin);
       final TextView date2 = findViewById(R.id.checkout);
       final Spinner spinner = findViewById(R.id.guest);
-        RelativeLayout checkin = findViewById(R.id.CheckinRel);
+        TextView subTitle = (TextView) findViewById(R.id.titlesecondTextView);
+        TextView stay = (TextView) findViewById(R.id.tvBooking);
+        String name = preferences.getString("lgfname","-");
+        String chkin = preferences.getString("bkci","-");
+
+        if(!name.equals("-")){
+            subTitle.setText("Hello, "+name+"!");
+            if(!chkin.equals("-")){
+                stay.setText("Your next checkin date is: "+chkin);
+            }
+        }
+
+
+
+      RelativeLayout checkin = findViewById(R.id.CheckinRel);
+
+
+
+
         checkin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAllCaps="false"
-    android:background="@drawable/background"
+    android:background="@drawable/background2"
     tools:context=".MainActivity">
 
 
@@ -15,9 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageLogin"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:text="Seascape Hotel Spa"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:textColor="@color/white"
         app:fontFamily="@font/dancing_script" />
 
@@ -30,7 +30,7 @@
         android:layout_marginTop="50dp"
         android:text="Book now"
         android:textColor="@color/white"
-        app:fontFamily="serif" />
+         />
     <TextView
         android:id="@+id/tvBooking"
         android:layout_width="wrap_content"

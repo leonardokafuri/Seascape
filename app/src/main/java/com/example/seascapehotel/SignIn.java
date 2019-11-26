@@ -149,6 +149,7 @@ public class SignIn extends AppCompatActivity {
                             preferences.edit().putString("lglname",lname).apply();
                             if (elem.Email.contentEquals(dbemail) && elem.Password.contentEquals(dbpass))
                                 startActivity(new Intent(SignIn.this, MainActivity.class));
+                            preferences.edit().putBoolean("session", true).apply();
                         }
 
                     }
